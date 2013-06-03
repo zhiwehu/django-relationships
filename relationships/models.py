@@ -218,7 +218,7 @@ class RelationshipManager(User._default_manager.__class__):
         #return self.get_related_to(RelationshipStatus.objects.following())
 
     def synergy(self):
-        return Relationship.objects.filter(to_user=self.instance, status=RelationshipStatus.objects.synergy(), site__pk=settings.SITE_ID)
+        return Relationship.objects.filter(from_user=self.instance, status=RelationshipStatus.objects.synergy(), site__pk=settings.SITE_ID)
 
     def blocking(self):
         return self.get_relationships(RelationshipStatus.objects.blocking())
