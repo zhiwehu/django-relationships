@@ -61,7 +61,7 @@ class Relationship(models.Model):
 
     class Meta:
         unique_together = (('from_user', 'to_user', 'status', 'site'),)
-        ordering = ('created',)
+        ordering = ('-created',)
         verbose_name = _('Relationship')
         verbose_name_plural = _('Relationships')
 
