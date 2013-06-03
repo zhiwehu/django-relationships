@@ -14,6 +14,9 @@ class RelationshipStatusManager(models.Manager):
 
     def blocking(self):
         return self.get(from_slug='blocking')
+    
+    def synergy(self):
+        return self.get(from_slug='synergy')
 
     def by_slug(self, status_slug):
         return self.get(
@@ -207,10 +210,15 @@ class RelationshipManager(User._default_manager.__class__):
 
     # some defaults
     def following(self):
-        return self.get_relationships(RelationshipStatus.objects.following())
+        return Relationship.objects.filter(from_user=self.instance, status=RelationshipStatus.objects.following(), site__pk=settings.SITE_ID)
+        #return self.get_relationships(RelationshipStatus.objects.following())
 
     def followers(self):
-        return self.get_related_to(RelationshipStatus.objects.following())
+        return Relationship.objects.filter(to_user=self.instance, status=RelationshipStatus.objects.following(), site__pk=settings.SITE_ID)
+        #return self.get_related_to(RelationshipStatus.objects.following())
+
+    def synergy(self):
+        return Relationship.objects.filter(to_user=self.instance, status=RelationshipStatus.objects.synergy(), site__pk=settings.SITE_ID)
 
     def blocking(self):
         return self.get_relationships(RelationshipStatus.objects.blocking())
